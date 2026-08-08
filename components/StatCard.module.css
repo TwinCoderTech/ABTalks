@@ -1,0 +1,109 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.card {
+  background-color: var(--surface);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: var(--shadow-level-1);
+  display: flex;
+  flex-direction: column;
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.5rem;
+}
+
+.mainValue {
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--on-surface);
+}
+
+.label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--on-surface-variant);
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.icon {
+  color: var(--on-surface-variant);
+}
+
+.iconFire {
+  color: var(--secondary-container); /* Amber-500 */
+}
+
+.iconSuccess {
+  color: var(--primary); /* Teal-700 */
+}
+
+.iconPrimary {
+  color: var(--primary); /* Teal-700 */
+}
+
+.footerText {
+  font-size: 0.75rem;
+  color: var(--on-surface-variant);
+  margin-top: 1rem;
+}
+
+.codeText {
+  font-family: monospace;
+  background-color: var(--surface-container-low);
+  padding: 0.125rem 0.25rem;
+  border-radius: 4px;
+}
+
+.progressContainer {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.progressBarBg, .progressBarBgSub {
+  width: 100%;
+  border-radius: 9999px;
+  background-color: var(--surface-container-low);
+}
+
+.progressBarBg {
+  height: 6px;
+}
+
+.progressBarBgSub {
+  height: 4px;
+}
+
+.progressBarFill, .progressBarFillSub {
+  height: 100%;
+  border-radius: 9999px;
+  background-color: var(--primary); /* Teal-700 */
+}
+
+.progressBarFillSub {
+  background-color: var(--outline); /* Teal-200 */
+}

@@ -1,0 +1,186 @@
+/* Unified Master Container */
+.panel {
+  background-color: var(--surface);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: var(--shadow-level-1);
+  border: 1px solid var(--outline-variant);
+  margin-bottom: 2rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  align-items: stretch;
+}
+
+@media (min-width: 1024px) {
+  .panel {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Internal Columns */
+.column {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 0;
+}
+
+@media (min-width: 1024px) {
+  .colBorder {
+    border-right: 1px solid var(--outline-variant);
+    padding-right: 1.5rem;
+  }
+  .colPadLeft {
+    padding-left: 1.5rem;
+  }
+}
+
+/* Headings shared across columns */
+.title {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--on-surface);
+  margin-bottom: 0.25rem;
+}
+.subtitle {
+  color: var(--on-surface-variant);
+  font-size: 0.875rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Specific content for Heatmap */
+.heatmapGrid {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 4px;
+  width: 100%;
+}
+.square {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 4px;
+}
+
+/* Colors */
+.onTime { background-color: var(--primary); }
+.rejected { background-color: #8b5cf6; }
+.missed { background-color: var(--error); }
+.catchUp { border: 2px solid var(--secondary-container); }
+.future { background-color: var(--surface-container-low); border: 1px solid var(--outline-variant); }
+
+.legend {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 1.5rem;
+}
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.75rem;
+  color: var(--on-surface-variant);
+}
+.legendSquare {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+}
+
+/* Specific content for Graph */
+.graphWrapper {
+  flex: 1;
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 120px;
+}
+.gridLines {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  z-index: 1;
+}
+.gridLine {
+  width: 100%;
+  border-top: 1px dashed var(--outline-variant);
+}
+.svgGraph {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  position: relative;
+  z-index: 2;
+}
+.tooltipGroup { pointer-events: none; }
+.tooltipLine { stroke: var(--outline); stroke-dasharray: 4; }
+.tooltipDot { fill: var(--surface); stroke: var(--primary); stroke-width: 3; }
+
+/* Specific content for Streak */
+.streakContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.streakIconRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 0.25rem;
+}
+.fireEmoji {
+  font-size: 3rem;
+  line-height: 1;
+  filter: drop-shadow(0 4px 10px rgba(234, 88, 12, 0.4));
+}
+.streakNumber {
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: var(--on-surface);
+  line-height: 1;
+  letter-spacing: -0.05em;
+}
+.streakLabel {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--secondary-container);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 1.5rem;
+}
+.streakDivider {
+  width: 100%;
+  border-top: 1px solid var(--outline-variant);
+  margin-bottom: 1rem;
+}
+.streakSubStats {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+}
+.subStat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.subStatLabel {
+  font-size: 0.65rem;
+  color: var(--on-surface-variant);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+.subStatValue {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--on-surface);
+}

@@ -1,0 +1,116 @@
+.container {
+  background-color: var(--surface);
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: var(--shadow-level-2);
+  margin-bottom: 2rem;
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.iconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  background-color: var(--primary-container); /* Teal-100 */
+  color: var(--on-primary-container); /* Teal-700 */
+  border-radius: 50%;
+}
+
+.title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--on-surface);
+  margin-bottom: 0.25rem;
+}
+
+.subtitle {
+  color: var(--on-surface-variant);
+  font-size: 0.875rem;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.item {
+  border: 1px solid var(--outline-variant);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.questionBtn {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.25rem;
+  background-color: var(--surface);
+  border: none;
+  text-align: left;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--on-surface);
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.questionBtn:hover {
+  background-color: var(--surface-container-lowest);
+}
+
+.arrow {
+  color: var(--on-surface-variant);
+  transition: transform 0.3s ease;
+}
+
+.arrowOpen {
+  transform: rotate(180deg);
+}
+
+.answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  background-color: var(--surface-container-lowest);
+}
+
+.answerOpen {
+  max-height: 200px;
+}
+
+.answerInner {
+  padding: 0 1.25rem 1rem;
+  color: var(--on-surface-variant);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+
+.helpCallout {
+  border: 1px solid var(--outline-variant);
+  border-radius: var(--radius-lg);
+  padding: 1rem 1.25rem;
+  margin-top: 1.5rem;
+  color: var(--on-surface-variant);
+  font-size: 0.9375rem;
+  background-color: var(--surface);
+}
+
+.helpLink {
+  color: var(--secondary-container); /* brand vibrant orange */
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.helpLink:hover {
+  text-decoration: underline;
+}

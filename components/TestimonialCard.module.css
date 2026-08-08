@@ -1,0 +1,62 @@
+.card {
+  background-color: var(--surface);
+  border-radius: 1rem; /* rounded-2xl */
+  padding: 2rem;
+  width: 24rem;
+  flex-shrink: 0;
+  scroll-snap-align: center;
+  box-shadow: var(--shadow-level-2);
+  border: 1px solid var(--outline-variant);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.quoteIcon {
+  color: var(--on-surface-variant); /* text-indigo-300 */
+  margin-bottom: 1rem;
+}
+
+.reviewText {
+  color: var(--on-surface-variant); /* text-slate-600 */
+  font-size: 0.95rem;
+  line-height: 1.6;
+  flex-grow: 1;
+}
+
+.divider {
+  height: 1px;
+  background-color: var(--outline-variant);
+  margin-top: auto;
+  margin-bottom: 1.5rem;
+  width: 100%;
+}
+
+.profileRow {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.avatar {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 9999px;
+  object-fit: cover;
+}
+
+.profileInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.name {
+  font-weight: 700;
+  color: var(--on-surface); /* text-slate-900 */
+  font-size: 0.95rem;
+}
+
+.role {
+  color: var(--on-surface-variant); /* text-slate-500 */
+  font-size: 0.8rem;
+}

@@ -1,0 +1,56 @@
+.bottomNav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: var(--surface);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0.75rem 0;
+  box-shadow: var(--shadow-level-2);
+  z-index: 50;
+  border-top: 1px solid var(--outline-variant);
+}
+
+.navItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  color: var(--on-surface-variant); /* text-gray-500 */
+  text-decoration: none;
+  font-size: 0.75rem;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+  padding: 0.25rem 1rem;
+  border-radius: 9999px; /* full rounded for the container */
+}
+
+.navItem:hover {
+  color: var(--on-surface); /* text-gray-700 */
+}
+
+.iconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  padding: 0.5rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.activeNavItem {
+  color: var(--primary); /* text-teal-700 */
+}
+
+.activeNavItem .iconWrapper {
+  background-color: var(--primary); /* bg-teal-700 */
+  color: var(--on-primary);
+}
+
+/* For main content padding */
+.mainContentPadding {
+  padding-bottom: 5rem; /* pb-20 equivalent to ensure content isn't hidden */
+}
