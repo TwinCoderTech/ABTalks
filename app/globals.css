@@ -1,0 +1,196 @@
+@import "tailwindcss";
+
+:root {
+  /* Surface colors */
+  --background: #fdfbf7;
+  --surface: #ffffff;
+  --surface-container-lowest: #ffffff;
+  --surface-container-low: #f9f9f9;
+  --surface-container: #f3f4f6;
+  --surface-container-high: #e5e7eb;
+  --surface-container-highest: #d1d5db;
+  --surface-dim: #f3f4f6;
+  --surface-bright: #ffffff;
+
+  /* On Surface colors (Text) */
+  --on-background: #111827;
+  --on-surface: #1f2937;
+  --on-surface-variant: #4b5563;
+
+  /* Inverse Surface */
+  --inverse-surface: #111827;
+  --inverse-on-surface: #f9fafb;
+
+  /* Primary (Teal) */
+  --primary: #0f766e;
+  --on-primary: #ffffff;
+  --primary-container: #0d9488;
+  --on-primary-container: #ffffff;
+  --inverse-primary: #5eead4;
+  
+  --primary-fixed: #ccfbf1;
+  --on-primary-fixed: #115e59;
+
+  /* Secondary (Orange) */
+  --secondary: #d97706;
+  --on-secondary: #ffffff;
+  --secondary-container: #f59e0b;
+  --on-secondary-container: #ffffff;
+  
+  --secondary-fixed: #ffedd5;
+  --on-secondary-fixed: #c2410c;
+
+  /* Tertiary (Can be lighter teal or secondary accent) */
+  --tertiary: #14b8a6;
+  --on-tertiary: #ffffff;
+  --tertiary-container: #2dd4bf;
+  --on-tertiary-container: #042f2e;
+
+  --tertiary-fixed: #ccfbf1;
+  --on-tertiary-fixed: #0f766e;
+
+  /* Error */
+  --error: #ef4444;
+  --on-error: #ffffff;
+  --error-container: #fecaca;
+  --on-error-container: #7f1d1d;
+
+  /* Outlines */
+  --outline: #9ca3af;
+  --outline-variant: #d1d5db;
+
+  /* Spacing */
+  --spacing-margin-mobile: 1rem;
+  --spacing-gutter: 1rem;
+  --spacing-stack-sm: 0.5rem;
+  --spacing-stack-md: 1rem;
+  --spacing-stack-lg: 1.5rem;
+  
+  /* Border Radius */
+  --radius-sm: 0.25rem;
+  --radius-default: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-2xl: 2rem;
+  --radius-full: 9999px;
+  
+  /* Shadows */
+  --shadow-level-1: 0px 1px 3px rgba(0, 0, 0, 0.1);
+  --shadow-level-2: 0px 4px 6px -1px rgba(0, 0, 0, 0.05), 0px 2px 4px -1px rgba(0, 0, 0, 0.03);
+  --shadow-level-3: 0px 10px 15px -3px rgba(0, 0, 0, 0.05), 0px 4px 6px -2px rgba(0, 0, 0, 0.025);
+}
+
+.dark {
+  /* Surface colors (Deep Slate/Zinc) */
+  --background: #0f172a; /* slate-900 */
+  --surface: #1e293b; /* slate-800 */
+  --surface-container-lowest: #020617; /* slate-950 */
+  --surface-container-low: #0f172a; /* slate-900 */
+  --surface-container: #1e293b; /* slate-800 */
+  --surface-container-high: #334155; /* slate-700 */
+  --surface-container-highest: #475569; /* slate-600 */
+  --surface-dim: #0f172a;
+  --surface-bright: #334155;
+
+  /* On Surface colors (Text) */
+  --on-background: #f8fafc; /* slate-50 */
+  --on-surface: #f1f5f9; /* slate-100 */
+  --on-surface-variant: #cbd5e1; /* slate-300 */
+
+  /* Inverse Surface */
+  --inverse-surface: #f8fafc;
+  --inverse-on-surface: #0f172a;
+
+  /* Outlines */
+  --outline: #475569; /* slate-600 */
+  --outline-variant: #334155; /* slate-700 */
+  
+  /* Shadows */
+  --shadow-level-1: 0px 1px 3px rgba(0, 0, 0, 0.5);
+  --shadow-level-2: 0px 4px 6px -1px rgba(0, 0, 0, 0.6), 0px 2px 4px -1px rgba(0, 0, 0, 0.4);
+  --shadow-level-3: 0px 10px 15px -3px rgba(0, 0, 0, 0.6), 0px 4px 6px -2px rgba(0, 0, 0, 0.4);
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  background-color: var(--background);
+  color: var(--on-background);
+  font-family: var(--font-inter), sans-serif;
+  scroll-behavior: smooth;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Typography Classes */
+.headline-lg {
+  font-family: var(--font-geist), sans-serif;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 36px;
+  letter-spacing: -0.02em;
+}
+
+.headline-md {
+  font-family: var(--font-geist), sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 30px;
+  letter-spacing: -0.01em;
+}
+
+.headline-sm {
+  font-family: var(--font-geist), sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 26px;
+}
+
+.body-lg {
+  font-family: var(--font-inter), sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+}
+
+.body-md {
+  font-family: var(--font-inter), sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+.label-md {
+  font-family: var(--font-geist), sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 16px;
+  letter-spacing: 0.05em;
+}
+
+.code-sm {
+  font-family: var(--font-jetbrains-mono), monospace;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 18px;
+}
+
+/* Base Components */
+.mobile-container {
+  max-width: 390px;
+  margin: 0 auto;
+  min-height: 100vh;
+  position: relative;
+  background-color: var(--background);
+}
