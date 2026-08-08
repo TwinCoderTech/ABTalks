@@ -1,0 +1,133 @@
+.container {
+  min-height: 100vh;
+  background-color: var(--background);
+  display: flex;
+  flex-direction: column;
+}
+
+
+
+
+
+.main {
+  flex: 1;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.todaysTaskCard {
+  background-color: var(--surface);
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: var(--shadow-level-2);
+  margin-bottom: 2rem;
+}
+
+.taskContext {
+  font-size: 0.875rem;
+  color: var(--on-surface-variant);
+  margin-bottom: 1rem;
+}
+
+.taskContentRow {
+  display: flex;
+  gap: 2rem;
+}
+
+.taskDayLabel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--primary); /* Teal-700 */
+}
+.taskDayNumber {
+  font-size: 4rem;
+  font-weight: 800;
+  line-height: 1;
+}
+.taskDayText {
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.taskDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.taskTags {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.tagBeginner {
+  background-color: var(--secondary-fixed); /* amber-100 */
+  color: var(--on-secondary-fixed); /* amber-700 */
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.tagTime {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: var(--on-surface-variant);
+  font-size: 0.875rem;
+}
+
+.taskTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--on-surface);
+}
+
+.startBtn {
+  background-color: var(--primary); /* Teal-700 */
+  color: var(--on-primary);
+  border: none;
+  border-radius: var(--radius-lg);
+  padding: 0.75rem 1.5rem;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  align-self: flex-start;
+  transition: background-color 0.2s;
+}
+.startBtn:hover {
+  background-color: var(--primary-container); /* Teal-800 */
+}
+
+.recentActivity {
+  background-color: var(--surface);
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: var(--shadow-level-2);
+  margin-bottom: 2rem;
+}
+
+.recentTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--on-surface);
+  margin-bottom: 0.25rem;
+}
+
+.recentSubtitle {
+  font-size: 0.875rem;
+  color: var(--on-surface-variant);
+  margin-bottom: 1.5rem;
+}
+
+.recentEmpty {
+  color: var(--on-surface-variant);
+  font-size: 0.875rem;
+}
