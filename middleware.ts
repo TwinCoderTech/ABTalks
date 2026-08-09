@@ -12,7 +12,8 @@ export default auth((req) => {
   const isLoggedIn = !!req.auth
   
   if (!isLoggedIn) {
-    const loginUrl = new URL('/login', req.url)
+    const loginUrl = req.nextUrl.clone()
+    loginUrl.pathname = '/login'
     return NextResponse.redirect(loginUrl)
   }
   
