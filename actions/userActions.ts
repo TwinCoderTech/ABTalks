@@ -31,7 +31,7 @@ export async function loginUser(formData: FormData) {
       }
     }
     
-    console.error("Login Error:", error);
+    console.error("AUTH_LOGIN_ERROR:", error);
     return { error: 'Internal Server Error. Please try again later.' };
   }
 }
@@ -78,7 +78,7 @@ export async function registerUser(formData: FormData) {
       return { error: 'Registration successful, but auto-login failed.' };
     }
     
-    console.error("Login after Registration Error:", error);
+    console.error("AUTH_LOGIN_AFTER_REGISTER_ERROR:", error);
     return { error: 'Registration successful, but an unexpected error occurred during login.' };
   }
 }
