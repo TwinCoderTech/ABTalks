@@ -93,3 +93,11 @@ model Submission {
   linkedinUrl     String
   submittedAt     DateTime @default(now())
 }
+
+model ClaudeChallenge {
+  dayId       Int      @id
+  title       String
+  description String
+  prompt      String
+  createdAt   DateTime @default(now())
+}

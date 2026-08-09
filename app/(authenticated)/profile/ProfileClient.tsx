@@ -2,7 +2,9 @@
 
 import { useState, useRef, useEffect } from 'react';
 import styles from './profile.module.css';
-import { FileText, Bell, AlertCircle, BookOpen, Layers, LayoutDashboard, User, X, CheckCircle2 } from 'lucide-react';
+import { FileText, Bell, AlertCircle, BookOpen, Layers, LayoutDashboard, User, X, CheckCircle2, Globe, Mail } from 'lucide-react';
+import { FaGithub, FaLinkedin } from 'react-icons/fa';
+import { TbBrandInstagram, TbBrandLinkedin, TbBrandYoutube, TbBrandX, TbBrandReddit } from 'react-icons/tb';
 import LogoutButton from './LogoutButton';
 import { reportIssue } from '@/actions/issueActions';
 import Link from 'next/link';
@@ -31,10 +33,12 @@ export default function ProfileClient() {
     linkedin: '',
     phone: '',
     github: '',
-    resumeLink: ''
+    resumeLink: '',
+    portfolio: ''
   });
   const [isEditingInfo, setIsEditingInfo] = useState(false);
   const [tempSkill, setTempSkill] = useState('');
+  const [validationError, setValidationError] = useState<string | null>(null);
 
   useEffect(() => {
     try {
@@ -50,6 +54,16 @@ export default function ProfileClient() {
   }, [user.email]);
 
   const handleSaveInfo = () => {
+    if (userInfo.linkedin && !/^https?:\/\/(www\.)?linkedin\.com\/.*$/.test(userInfo.linkedin)) {
+      setValidationError('Please enter a valid LinkedIn URL.');
+      return;
+    }
+    if (userInfo.github && !/^https?:\/\/(www\.)?github\.com\/.*$/.test(userInfo.github)) {
+      setValidationError('Please enter a valid GitHub URL.');
+      return;
+    }
+
+    setValidationError(null);
     if (user?.email) {
       localStorage.setItem(`user_info_${user.email}`, JSON.stringify(userInfo));
     }
@@ -69,11 +83,19 @@ export default function ProfileClient() {
     setUserInfo({ ...userInfo, skills: userInfo.skills.filter(s => s !== skillToRemove) });
   };
   
+  // Dynamic Day/Streak Calculation
+  const startDate = new Date('2026-07-27T00:00:00Z');
+  const now = new Date();
+  const diffTime = Math.abs(now.getTime() - startDate.getTime());
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+  const currentDay = Math.min(Math.max(diffDays, 1), 60);
+  const percentage = Math.round((currentDay / 60) * 100);
+
   // --- Courses State ---
   // Default to 1 active course to show the progress UI. 
   // Change to [] to see the "Upcoming Resources" empty state.
   const [enrolledCourses, setEnrolledCourses] = useState([
-    { id: 1, title: 'Claude AI Mastery', progress: 22, days: 13, totalDays: 60, timeSpent: '6h 30m', tag: '60-Day Challenge' }
+    { id: 1, title: 'Claude AI Mastery', progress: percentage, days: currentDay, totalDays: 60, timeSpent: '6h 30m', tag: '60-Day Challenge' }
   ]);
 
   // --- Settings State ---
@@ -134,6 +156,8 @@ export default function ProfileClient() {
       localStorage.removeItem(`user_resume_${user.email}`);
     }
   };
+
+  const [selectedYear, setSelectedYear] = useState(2026);
 
   const [isReportingIssue, setIsReportingIssue] = useState(false);
   const [issueType, setIssueType] = useState('Bug');
@@ -249,6 +273,14 @@ export default function ProfileClient() {
           </div>
         )}
 
+        {userInfo.portfolio && (
+          <div style={{ marginTop: '1rem', textAlign: 'center' }}>
+             <a href={userInfo.portfolio} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)', fontSize: '0.875rem', fontWeight: 600, textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '6px 12px', backgroundColor: 'var(--surface-container)', borderRadius: '20px' }}>
+                <Globe size={14} /> Portfolio
+             </a>
+          </div>
+        )}
+
         <button className={styles.editBtn} onClick={() => setIsEditingProfile(true)} style={{ marginTop: '1.25rem' }}>
           Edit Profile
         </button>
@@ -263,7 +295,7 @@ export default function ProfileClient() {
         <div className={styles.settingsList}>
           
           {/* Your Information Setting */}
-          <button className={styles.settingsItem} onClick={() => setIsEditingInfo(true)}>
+          <button className={styles.settingsItem} onClick={() => { setIsEditingInfo(true); setValidationError(null); }}>
             <div className={`${styles.iconWrapper}`} style={{ backgroundColor: '#f97316', color: '#ffffff' }}>
               <User size={20} />
             </div>
@@ -378,43 +410,82 @@ export default function ProfileClient() {
             </div>
           </div>
           
-          <h2 className={styles.journeyTitle}>
-            {user.streak || 13} Day Streak <span style={{ fontSize: '1.25rem' }}>🔥</span>
-          </h2>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <h2 className={styles.journeyTitle}>
+              {currentDay} Day Streak <span style={{ fontSize: '1.25rem' }}>🔥</span>
+            </h2>
+            <select 
+              value={selectedYear} 
+              onChange={(e) => setSelectedYear(Number(e.target.value))}
+              style={{ padding: '6px 12px', borderRadius: '8px', border: '1px solid var(--outline-variant)', fontSize: '12px', fontWeight: 600, color: 'var(--on-surface)', backgroundColor: 'var(--surface)' }}
+            >
+              <option value={2025}>2025</option>
+              <option value={2026}>2026</option>
+              <option value={2027}>2027</option>
+            </select>
+          </div>
           <p className={styles.journeyDesc}>
             Keep it up! You're in the top 15% of learners this week.
           </p>
           
-          <div className={styles.heatmapContainer}>
-            <div style={{ display: 'flex', gap: '4px', overflowX: 'auto', paddingBottom: '0.5rem' }}>
-              {Array.from({ length: 50 }).map((_, i) => {
-                const isActive = Math.random() > 0.5;
-                const isMissed = Math.random() > 0.9;
-                let bg = 'var(--surface-container-low)';
-                if (isActive) bg = 'var(--primary)';
-                else if (isMissed) bg = 'var(--error)';
-                
-                return (
-                  <div 
-                    key={i} 
-                    style={{ 
-                      flexShrink: 0,
-                      width: '12px', 
-                      height: '12px', 
-                      borderRadius: '2px', 
-                      backgroundColor: bg,
-                      border: '1px solid var(--outline-variant)'
-                    }} 
-                  />
-                );
-              })}
+          <div className={styles.heatmapContainer} style={{ overflowX: 'auto', paddingBottom: '12px' }}>
+            {/* Months Header */}
+            <div style={{ display: 'flex', width: '828px', justifyContent: 'space-between', fontSize: '11px', color: '#64748b', fontWeight: 600, marginBottom: '8px' }}>
+              <span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span><span>May</span><span>Jun</span><span>Jul</span><span>Aug</span><span>Sep</span><span>Oct</span><span>Nov</span><span>Dec</span>
             </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.65rem', color: 'var(--on-surface-variant)', fontWeight: 600, marginTop: '0.5rem' }}>
+            
+            <div style={{ display: 'flex', gap: '8px' }}>
+              {/* Activity Grid (Removed Mon/Wed/Fri labels) */}
+              <div style={{ 
+                display: 'grid', 
+                gridTemplateRows: 'repeat(7, 1fr)', 
+                gridAutoFlow: 'column', 
+                gap: '4px',
+              }}>
+                {Array.from({ length: 364 }).map((_, i) => { // 52 weeks * 7 = 364
+                  const yearStart = new Date(`${selectedYear}-01-01T00:00:00Z`);
+                  const boxDate = new Date(yearStart);
+                  boxDate.setDate(boxDate.getDate() + i);
+                  
+                  // Color only the active streak (from July 27 2026 up to current day)
+                  const challengeStart = new Date('2026-07-27T00:00:00Z');
+                  const streakEnd = new Date(challengeStart.getTime() + (currentDay * 24 * 60 * 60 * 1000));
+                  const isActive = boxDate >= challengeStart && boxDate < streakEnd;
+                  
+                  const intensity = isActive ? (Math.random() * 0.8 + 0.2) : 0; 
+                  
+                  let bg = 'var(--surface-container-low)'; // empty
+                  if (intensity > 0.8) bg = '#0f766e'; // very high (dark teal)
+                  else if (intensity > 0.5) bg = '#14b8a6'; // high
+                  else if (intensity > 0.2) bg = '#5eead4'; // medium
+                  else if (intensity > 0) bg = '#ccfbf1'; // low
+                  
+                  return (
+                    <div 
+                      key={i} 
+                      title={boxDate.toDateString()}
+                      style={{ 
+                        width: '12px', 
+                        height: '12px', 
+                        borderRadius: '3px', 
+                        backgroundColor: bg,
+                        border: '1px solid var(--outline-variant)',
+                        cursor: 'pointer'
+                      }} 
+                    />
+                  );
+                })}
+              </div>
+            </div>
+            
+            <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', fontSize: '11px', color: '#64748b', fontWeight: 500, marginTop: '16px', gap: '6px', width: '828px' }}>
               <span>Less</span>
               <div style={{ display: 'flex', gap: '4px' }}>
-                <div style={{ width: '8px', height: '8px', borderRadius: '2px', backgroundColor: 'var(--surface-container-low)' }} />
-                <div style={{ width: '8px', height: '8px', borderRadius: '2px', backgroundColor: 'var(--primary-container)' }} />
-                <div style={{ width: '8px', height: '8px', borderRadius: '2px', backgroundColor: 'var(--primary)' }} />
+                <div style={{ width: '12px', height: '12px', borderRadius: '3px', backgroundColor: 'var(--surface-container-low)', border: '1px solid var(--outline-variant)' }} />
+                <div style={{ width: '12px', height: '12px', borderRadius: '3px', backgroundColor: '#ccfbf1', border: '1px solid var(--outline-variant)' }} />
+                <div style={{ width: '12px', height: '12px', borderRadius: '3px', backgroundColor: '#5eead4', border: '1px solid var(--outline-variant)' }} />
+                <div style={{ width: '12px', height: '12px', borderRadius: '3px', backgroundColor: '#14b8a6', border: '1px solid var(--outline-variant)' }} />
+                <div style={{ width: '12px', height: '12px', borderRadius: '3px', backgroundColor: '#0f766e', border: '1px solid var(--outline-variant)' }} />
               </div>
               <span>More</span>
             </div>
@@ -466,7 +537,7 @@ export default function ProfileClient() {
               </div>
 
               {/* Continue Learning Button */}
-              <a href="/track/claude/day-12" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', width: '100%', padding: '14px', background: '#fff7ed', border: '1.5px solid #fed7aa', borderRadius: '14px', color: '#f97316', fontWeight: 700, fontSize: '15px', textDecoration: 'none', transition: 'all 0.2s' }}>
+              <a href={`/track/claude/day-${currentDay}`} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', width: '100%', padding: '14px', background: '#fff7ed', border: '1.5px solid #fed7aa', borderRadius: '14px', color: '#f97316', fontWeight: 700, fontSize: '15px', textDecoration: 'none', transition: 'all 0.2s' }}>
                 Continue Learning
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
               </a>
@@ -475,6 +546,46 @@ export default function ProfileClient() {
             <p className={styles.journeyDesc}>You haven't started any courses yet.</p>
           )}
         </div>
+
+        {/* Social Links Card */}
+        <div className={styles.card} style={{ padding: '24px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+            <span style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '1.5px', color: '#64748b', textTransform: 'uppercase' }}>SOCIAL LINKS</span>
+          </div>
+          
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            <a href={userInfo.github || '#'} target={userInfo.github ? "_blank" : undefined} rel="noopener noreferrer" onClick={(e) => { if (!userInfo.github) { e.preventDefault(); setIsEditingInfo(true); } }} style={{ display: 'flex', alignItems: 'center', gap: '16px', padding: '16px', background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '16px', textDecoration: 'none', transition: 'all 0.2s', boxShadow: '0 1px 2px rgba(0,0,0,0.02)' }}>
+              <FaGithub size={24} color="var(--primary)" />
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                <span style={{ fontSize: '15px', fontWeight: 600, color: '#0f172a' }}>GitHub</span>
+                <span style={{ fontSize: '13px', color: '#64748b' }}>
+                  {userInfo.github ? userInfo.github.replace(/^https?:\/\/(www\.)?/, '') : 'Add in Settings'}
+                </span>
+              </div>
+            </a>
+
+            <a href={userInfo.linkedin || '#'} target={userInfo.linkedin ? "_blank" : undefined} rel="noopener noreferrer" onClick={(e) => { if (!userInfo.linkedin) { e.preventDefault(); setIsEditingInfo(true); } }} style={{ display: 'flex', alignItems: 'center', gap: '16px', padding: '16px', background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '16px', textDecoration: 'none', transition: 'all 0.2s', boxShadow: '0 1px 2px rgba(0,0,0,0.02)' }}>
+              <FaLinkedin size={24} color="var(--primary)" />
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                <span style={{ fontSize: '15px', fontWeight: 600, color: '#0f172a' }}>LinkedIn</span>
+                <span style={{ fontSize: '13px', color: '#64748b' }}>
+                  {userInfo.linkedin ? userInfo.linkedin.replace(/^https?:\/\/(www\.)?/, '') : 'Add in Settings'}
+                </span>
+              </div>
+            </a>
+
+            <a href={userInfo.portfolio || '#'} target={userInfo.portfolio ? "_blank" : undefined} rel="noopener noreferrer" onClick={(e) => { if (!userInfo.portfolio) { e.preventDefault(); setIsEditingInfo(true); } }} style={{ display: 'flex', alignItems: 'center', gap: '16px', padding: '16px', background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '16px', textDecoration: 'none', transition: 'all 0.2s', boxShadow: '0 1px 2px rgba(0,0,0,0.02)' }}>
+              <Globe size={24} color="var(--primary)" />
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                <span style={{ fontSize: '15px', fontWeight: 600, color: '#0f172a' }}>Portfolio</span>
+                <span style={{ fontSize: '13px', color: '#64748b' }}>
+                  {userInfo.portfolio ? userInfo.portfolio.replace(/^https?:\/\/(www\.)?/, '') : 'Add in Settings'}
+                </span>
+              </div>
+            </a>
+          </div>
+        </div>
+
       </div>
     </div>
 
@@ -625,7 +736,8 @@ export default function ProfileClient() {
             <div className={styles.inputGroup} style={{ marginBottom: '20px' }}>
               <label className={styles.inputLabel} style={{ fontSize: '1rem', color: '#111827' }}>LinkedIn URL (optional)</label>
               <input 
-                type="text" 
+                type="url" 
+                placeholder="https://www.linkedin.com/in/username"
                 value={userInfo.linkedin}
                 onChange={e => setUserInfo({ ...userInfo, linkedin: e.target.value })}
                 style={{ width: '100%', backgroundColor: '#ffffff', border: '1px solid #e5e7eb', borderRadius: '12px', padding: '12px 16px', fontSize: '1rem', marginTop: '4px' }}
@@ -648,11 +760,23 @@ export default function ProfileClient() {
             </div>
 
             <div className={styles.inputGroup} style={{ marginBottom: '20px' }}>
-              <label className={styles.inputLabel} style={{ fontSize: '1rem', color: '#111827' }}>GitHub username (optional)</label>
+              <label className={styles.inputLabel} style={{ fontSize: '1rem', color: '#111827' }}>GitHub URL (optional)</label>
               <input 
-                type="text" 
+                type="url" 
+                placeholder="https://github.com/username"
                 value={userInfo.github}
                 onChange={e => setUserInfo({ ...userInfo, github: e.target.value })}
+                style={{ width: '100%', backgroundColor: '#ffffff', border: '1px solid #e5e7eb', borderRadius: '12px', padding: '12px 16px', fontSize: '1rem', marginTop: '4px' }}
+              />
+            </div>
+
+            <div className={styles.inputGroup} style={{ marginBottom: '20px' }}>
+              <label className={styles.inputLabel} style={{ fontSize: '1rem', color: '#111827' }}>Portfolio URL (optional)</label>
+              <input 
+                type="url" 
+                placeholder="https://yourportfolio.com"
+                value={userInfo.portfolio || ''}
+                onChange={e => setUserInfo({ ...userInfo, portfolio: e.target.value })}
                 style={{ width: '100%', backgroundColor: '#ffffff', border: '1px solid #e5e7eb', borderRadius: '12px', padding: '12px 16px', fontSize: '1rem', marginTop: '4px' }}
               />
             </div>
@@ -669,9 +793,14 @@ export default function ProfileClient() {
               <p style={{ fontSize: '0.8rem', color: '#6b7280', marginTop: '6px' }}>Visible to admins only. Paste a Google Drive, Dropbox, or LinkedIn-hosted resume link.</p>
             </div>
 
+            {validationError && (
+              <div style={{ color: '#ef4444', marginBottom: '16px', fontSize: '0.9rem', fontWeight: 500 }}>
+                {validationError}
+              </div>
+            )}
             <button 
               onClick={handleSaveInfo}
-              style={{ padding: '12px 32px', backgroundColor: '#6366f1', color: 'white', border: 'none', borderRadius: '12px', fontWeight: 600, fontSize: '1rem', cursor: 'pointer' }}
+              style={{ padding: '12px 32px', backgroundColor: '#f97316', color: 'white', border: 'none', borderRadius: '12px', fontWeight: 600, fontSize: '1rem', cursor: 'pointer' }}
             >
               Save
             </button>
@@ -685,6 +814,33 @@ export default function ProfileClient() {
           {toastMessage}
         </div>
       )}
+
+      {/* Footer */}
+      <footer className={styles.footerContainer}>
+        <div className={styles.footerLeft}>
+          <span className={styles.footerBrand}>ABTalks</span>
+        </div>
+        <div className={styles.footerCenter}>
+          <a href="https://www.instagram.com/abtalksonai/" target="_blank" rel="noopener noreferrer">
+            <TbBrandInstagram size={24} className={styles.socialIcon} strokeWidth={1.5} />
+          </a>
+          <a href="https://www.linkedin.com/company/abtalks-on-ai/" target="_blank" rel="noopener noreferrer">
+            <TbBrandLinkedin size={24} className={styles.socialIcon} strokeWidth={1.5} />
+          </a>
+          <a href="https://www.youtube.com/@ABTalksOnAI" target="_blank" rel="noopener noreferrer">
+            <TbBrandYoutube size={24} className={styles.socialIcon} strokeWidth={1.5} />
+          </a>
+          <a href="https://x.com/abtalksonai" target="_blank" rel="noopener noreferrer">
+            <TbBrandX size={24} className={styles.socialIcon} strokeWidth={1.5} />
+          </a>
+          <a href="https://discord.gg/j4Q8tvDj6" target="_blank" rel="noopener noreferrer">
+            <TbBrandReddit size={24} className={styles.socialIcon} strokeWidth={1.5} />
+          </a>
+        </div>
+        <div className={styles.footerRight}>
+          <Mail size={16} /> For any issue or enquiry: <a href="mailto:team@abtalks.in" className={styles.footerLink}>team@abtalks.in</a>
+        </div>
+      </footer>
     </>
   );
 }

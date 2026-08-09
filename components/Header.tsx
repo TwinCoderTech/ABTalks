@@ -23,6 +23,13 @@ export default function Header() {
   const profileRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
 
+  // Dynamic Day/Streak Calculation
+  const startDate = new Date('2026-07-27T00:00:00Z');
+  const now = new Date();
+  const diffTime = Math.abs(now.getTime() - startDate.getTime());
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+  const currentDay = Math.min(Math.max(diffDays, 1), 60);
+
   // Issue Modal State
   const [isReportingIssue, setIsReportingIssue] = useState(false);
   const [issueType, setIssueType] = useState('Bug');
@@ -109,7 +116,7 @@ export default function Header() {
                 onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; }}
                 onClick={() => {
                   setSelectedTrack('Claude AI');
-                  router.push('/track/claude/day-12');
+                  router.push(`/track/claude/day-${currentDay}`);
                   setIsTrackOpen(false);
                 }}
               >
@@ -142,7 +149,7 @@ export default function Header() {
         {/* Streak Counter */}
         <Link href="/rewards" className={styles.navItemBadge}>
           <span className={styles.iconFire}>🔥</span>
-          {user?.streak || 0}
+          {currentDay}
         </Link>
         
         {/* Dark Mode Toggle */}

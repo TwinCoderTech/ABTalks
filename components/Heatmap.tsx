@@ -3,7 +3,15 @@ import styles from './Heatmap.module.css';
 export default function Heatmap() {
   const squares = Array.from({ length: 60 }, (_, i) => i + 1);
 
-  // SVG Line Chart Points (mocking 14 days of activity)
+  // Dynamic Day/Streak Calculation
+  const startDate = new Date('2026-07-27T00:00:00Z');
+  const now = new Date();
+  const diffTime = Math.abs(now.getTime() - startDate.getTime());
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+  const currentDay = Math.min(Math.max(diffDays, 1), 60);
+  const percentage = Math.round((currentDay / 60) * 100);
+
+  // SVG Line Chart Points (mocking activity based on current day)
   const smoothPath = "M0 130 C 100 110, 200 120, 300 80 C 400 40, 500 60, 600 90 C 700 120, 800 70, 1000 50";
   const fillPath = `${smoothPath} L 1000 150 L 0 150 Z`;
 
@@ -13,12 +21,12 @@ export default function Heatmap() {
       {/* Column 1: Heatmap */}
       <div className={`${styles.column} ${styles.colBorder}`}>
         <h2 className={styles.title}>Your 60-Day Journey</h2>
-        <p className={styles.subtitle}>14 days complete · Day 14 of 60</p>
+        <p className={styles.subtitle}>{currentDay} days complete · Day {currentDay} of 60</p>
         
         <div className={styles.heatmapGrid}>
           {squares.map(day => {
             let stateClass = styles.future;
-            if (day <= 14) stateClass = styles.onTime; // Updated Day 14 to solid green!
+            if (day <= currentDay) stateClass = styles.onTime; // Updated conditionally
             
             return (
               <div key={day} className={`${styles.square} ${stateClass}`} />
@@ -47,7 +55,7 @@ export default function Heatmap() {
         <div className={styles.streakContent}>
           <div className={styles.streakIconRow}>
             <span className={styles.fireEmoji}>🔥</span>
-            <span className={styles.streakNumber}>14</span>
+            <span className={styles.streakNumber}>{currentDay}</span>
           </div>
           <div className={styles.streakLabel}>Day Streak</div>
           
@@ -56,11 +64,11 @@ export default function Heatmap() {
           <div className={styles.streakSubStats}>
             <div className={styles.subStat}>
               <span className={styles.subStatLabel}>Longest Streak</span>
-              <span className={styles.subStatValue}>14</span>
+              <span className={styles.subStatValue}>{currentDay}</span>
             </div>
             <div className={styles.subStat}>
               <span className={styles.subStatLabel}>Total Completed</span>
-              <span className={styles.subStatValue}>23%</span>
+              <span className={styles.subStatValue}>{percentage}%</span>
             </div>
           </div>
         </div>
@@ -69,7 +77,7 @@ export default function Heatmap() {
       {/* Column 3: Analytical Graph */}
       <div className={`${styles.column} ${styles.colPadLeft}`}>
         <h3 className={styles.title}>Activity Overview</h3>
-        <p className={styles.subtitle}>Last 14 days</p>
+        <p className={styles.subtitle}>Last {currentDay} days</p>
         
         <div className={styles.graphWrapper}>
           <div className={styles.gridLines}>

@@ -19,7 +19,7 @@ export default async function ProfilePage() {
         <h1 className={styles.headerTitle}>My Profile</h1>
       </header>
 
-      <main className={styles.content}>
+      <main>
         <ProfileClient />
       </main>
     </div>

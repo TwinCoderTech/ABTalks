@@ -7,63 +7,32 @@ import { FaGithub } from 'react-icons/fa';
 import Link from 'next/link';
 import { useState } from 'react';
 
-export default function Day13Page() {
+type ChallengeProps = {
+  dayId: number;
+  title: string;
+  description: string;
+  promptText: string;
+};
+
+export default function ChallengeClient({ dayId, title, description, promptText }: ChallengeProps) {
   const [isPromptOpen, setIsPromptOpen] = useState(true);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [githubUrl, setGithubUrl] = useState('');
+  const [linkedinUrl, setLinkedinUrl] = useState('');
+  const [validationError, setValidationError] = useState<string | null>(null);
 
   const handleSubmit = () => {
+    if (githubUrl && !/^https?:\/\/(www\.)?github\.com\/.*$/.test(githubUrl)) {
+      setValidationError('Please enter a valid GitHub URL.');
+      return;
+    }
+    if (linkedinUrl && !/^https?:\/\/(www\.)?linkedin\.com\/.*$/.test(linkedinUrl)) {
+      setValidationError('Please enter a valid LinkedIn URL.');
+      return;
+    }
+    setValidationError(null);
     setIsSubmitted(true);
   };
-
-  const promptText = `PROMPT 1: Professional Profile
-
-Describe your professional background, including:
-
-Current role
-Years of experience
-Key skills and technologies
-Industry/domain expertise
-Current company type
-Current location
-Notable achievements, certifications, or accomplishments
-
-PROMPT 2: Job Search Criteria
-
-Specify your target job requirements, including:
-
-Desired job titles
-Preferred company types
-Preferred locations (Remote/Hybrid/Onsite)
-Salary expectations
-Industries or companies to exclude
-Job posting recency requirements
-Any additional preferences or constraints
-
-PROMPT 3: Job Discovery & Analysis
-
-Using my professional profile and job search criteria:
-
-Search for matching job opportunities using the available job connector(s)
-Prioritize the highest-fit roles
-Exclude jobs that do not meet my requirements
-Return the top opportunities in a table containing:
-
-Company
-Role
-Location
-Posted Date
-Direct Application Link
-Match Score
-Why It Fits My Profile
-CTC
-
-Also provide:
-
-Most commonly required skills across the jobs
-Skill gap analysis
-Market demand insights
-Recommendations to improve my chances of getting interviews
-Overall fit assessment for my target roles and compensation goals.`;
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(promptText);
@@ -85,9 +54,9 @@ Overall fit assessment for my target roles and compensation goals.`;
 
           <div style={{ marginBottom: '40px' }}>
             <span style={{ color: '#64748b', fontSize: '14px', fontWeight: 500, display: 'block', marginBottom: '4px' }}>Claude Connectors</span>
-            <span style={{ color: '#f97316', fontSize: '13px', fontWeight: 700, letterSpacing: '3px', textTransform: 'uppercase', display: 'block', marginBottom: '12px' }}>DAY 13</span>
-            <h1 style={{ fontSize: '42px', fontWeight: 900, color: '#0f172a', lineHeight: 1.2, marginBottom: '12px' }}>Build Your AI Job Search Assistant</h1>
-            <p style={{ color: '#64748b', fontSize: '20px', fontStyle: 'italic', marginBottom: '16px' }}>Let Claude find your next opportunity</p>
+            <span style={{ color: '#f97316', fontSize: '13px', fontWeight: 700, letterSpacing: '3px', textTransform: 'uppercase', display: 'block', marginBottom: '12px' }}>DAY {dayId}</span>
+            <h1 style={{ fontSize: '42px', fontWeight: 900, color: '#0f172a', lineHeight: 1.2, marginBottom: '12px' }}>{title}</h1>
+            <p style={{ color: '#64748b', fontSize: '20px', fontStyle: 'italic', marginBottom: '16px' }}>{description}</p>
 
             <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', marginTop: '20px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '6px', background: '#fff7ed', color: '#f97316', padding: '6px 12px', borderRadius: '6px', fontSize: '13px', fontWeight: 600, border: '1px solid #fed7aa' }}>
@@ -168,16 +137,34 @@ Overall fit assessment for my target roles and compensation goals.`;
 
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
                     <label style={{ fontWeight: 700, fontSize: '13px', color: '#0f172a' }}>GitHub URL</label>
-                    <input type="text" placeholder="GitHub commit or repo URL" style={{ width: '100%', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '14px 18px', fontSize: '14px', outline: 'none', background: '#f8fafc', boxSizing: 'border-box' }} />
+                    <input 
+                      type="url" 
+                      placeholder="GitHub commit or repo URL" 
+                      value={githubUrl}
+                      onChange={(e) => setGithubUrl(e.target.value)}
+                      style={{ width: '100%', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '14px 18px', fontSize: '14px', outline: 'none', background: '#f8fafc', boxSizing: 'border-box' }} 
+                    />
                     <p style={{ color: '#94a3b8', fontSize: '13px', margin: 0 }}>Optional · +5 synergy</p>
                   </div>
 
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
                     <label style={{ fontWeight: 700, fontSize: '13px', color: '#0f172a' }}>LinkedIn URL</label>
-                    <input type="text" placeholder="LinkedIn post URL" style={{ width: '100%', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '14px 18px', fontSize: '14px', outline: 'none', background: '#f8fafc', boxSizing: 'border-box' }} />
+                    <input 
+                      type="url" 
+                      placeholder="LinkedIn post URL" 
+                      value={linkedinUrl}
+                      onChange={(e) => setLinkedinUrl(e.target.value)}
+                      style={{ width: '100%', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '14px 18px', fontSize: '14px', outline: 'none', background: '#f8fafc', boxSizing: 'border-box' }} 
+                    />
                     <p style={{ color: '#94a3b8', fontSize: '13px', margin: 0 }}>Optional · +8 synergy</p>
                   </div>
                 </div>
+
+                {validationError && (
+                  <div style={{ color: '#ef4444', textAlign: 'center', fontSize: '14px', fontWeight: 600 }}>
+                    {validationError}
+                  </div>
+                )}
 
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
                   {isSubmitted ? (
@@ -188,14 +175,14 @@ Overall fit assessment for my target roles and compensation goals.`;
                         </svg>
                       </div>
                       <p style={{ fontWeight: 800, fontSize: '18px', color: '#15803d', margin: 0 }}>Successfully Submitted!</p>
-                      <p style={{ fontSize: '13px', color: '#4ade80', margin: 0, fontWeight: 500 }}>Day 13 task has been recorded ✓</p>
+                      <p style={{ fontSize: '13px', color: '#4ade80', margin: 0, fontWeight: 500 }}>Day {dayId} task has been recorded ✓</p>
                     </div>
                   ) : (
                     <button
                       onClick={handleSubmit}
                       style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '10px', background: '#f97316', color: '#fff', fontWeight: 700, fontSize: '16px', padding: '16px 48px', borderRadius: '14px', border: 'none', cursor: 'pointer', boxShadow: '0 4px 12px rgba(249,115,22,0.3)' }}
                     >
-                      <Send size={20} /> Submit Day 13
+                      <Send size={20} /> Submit Day {dayId}
                     </button>
                   )}
                 </div>

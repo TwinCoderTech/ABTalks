@@ -120,79 +120,123 @@ export default function RewardsPage() {
               <span className="text-slate-500 font-medium bg-slate-100 px-3 py-1 rounded-full text-sm">4 items</span>
             </div>
             
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 w-full">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 w-full">
               
               {/* Product Card 1 */}
-              <button onClick={() => handleBlockClick('Cap')} className="bg-white border border-slate-200 rounded-3xl overflow-hidden flex flex-col shadow-sm hover:shadow-xl hover:border-orange-500 focus:border-orange-500 hover:-translate-y-1 active:scale-95 active:bg-orange-50 active:ring-4 active:ring-orange-200 transition-all duration-300 outline-none text-left">
-                <div className="relative w-full h-64 bg-slate-100">
-                  <img className="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCIamEbMjjVOlbGkVZJPnVA1XxrpjigIncQpjG_4vj8VeOjlalSMPHI4eV21eVu2CwVULkJqBg5A36x-JAnGNUQZ39C7IvREx6Et0z4cHZlPqPFjLGcMO46kv0ZrcwrGEfrD6XrlbdELSLJ2guCnkqRPTRbeJW5fv7yCq7NSvy_6CcB4WTn7SHAkn04y0PRdAON2pOvU3Acwr-mtfFWj74o12tKaWYIZ99INIGEFdOEmQ0gJR8MLMnP" alt="Cap" />
-                  <div className="absolute top-4 right-4 bg-white/90 backdrop-blur px-4 py-1.5 rounded-full flex items-center gap-1.5 shadow-sm border border-slate-100">
-                    <Star size={16} className="text-orange-500" fill="currentColor" />
-                    <span className="font-bold text-slate-900">1,500 SP</span>
-                  </div>
+              <div role="button" tabIndex={0} onClick={() => handleBlockClick('Cap')} className="cursor-pointer bg-white border border-slate-200 rounded-3xl overflow-hidden flex flex-col shadow-sm hover:shadow-xl hover:border-orange-500 focus:border-orange-500 hover:-translate-y-1 active:scale-95 active:bg-orange-50 active:ring-4 active:ring-orange-200 transition-all duration-300 outline-none text-left h-full">
+                <div className="relative w-full h-64 bg-slate-100 overflow-hidden group">
+                  <img className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCIamEbMjjVOlbGkVZJPnVA1XxrpjigIncQpjG_4vj8VeOjlalSMPHI4eV21eVu2CwVULkJqBg5A36x-JAnGNUQZ39C7IvREx6Et0z4cHZlPqPFjLGcMO46kv0ZrcwrGEfrD6XrlbdELSLJ2guCnkqRPTRbeJW5fv7yCq7NSvy_6CcB4WTn7SHAkn04y0PRdAON2pOvU3Acwr-mtfFWj74o12tKaWYIZ99INIGEFdOEmQ0gJR8MLMnP" alt="Cap" />
                 </div>
-                <div className="p-6 flex flex-col flex-1 w-full">
-                  <h3 className="font-bold text-xl text-slate-900 mb-2">ABTalks Signature Cap</h3>
-                  <p className="text-slate-600 mb-8 flex-1 leading-relaxed">Classic fit, 100% cotton canvas with embroidered logo.</p>
-                  <div className="w-full bg-orange-50 border border-orange-200 text-orange-600 rounded-xl py-3 font-bold text-center">
+                <div className="p-6 flex flex-col flex-1 w-full gap-5">
+                  <div className="flex flex-col gap-2">
+                    <h3 className="font-bold text-[22px] text-slate-900 leading-tight">ABTalks Signature Cap</h3>
+                    <p className="text-slate-500 text-[15px] leading-relaxed">Classic fit, 100% cotton canvas with embroidered logo.</p>
+                  </div>
+                  
+                  <div className="flex-1"></div>
+
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-full bg-orange-100 flex items-center justify-center text-orange-600 font-bold text-[11px]">
+                      SP
+                    </div>
+                    <div className="flex items-baseline gap-1.5">
+                      <span className="text-[26px] font-bold text-slate-900 tracking-tight">1,500</span>
+                      <span className="text-[14px] font-medium text-slate-500">Synergy Points</span>
+                    </div>
+                  </div>
+
+                  <div className="w-full bg-slate-100 hover:bg-slate-200 transition-colors text-slate-700 rounded-xl py-3.5 font-bold text-center text-[15px]">
                     Need 250 more SP
                   </div>
                 </div>
-              </button>
+              </div>
 
               {/* Product Card 2 */}
-              <button onClick={() => handleBlockClick('Lunch Box')} className="bg-white border border-slate-200 rounded-3xl overflow-hidden flex flex-col shadow-sm hover:shadow-xl hover:border-orange-500 focus:border-orange-500 hover:-translate-y-1 active:scale-95 active:bg-orange-50 active:ring-4 active:ring-orange-200 transition-all duration-300 outline-none text-left">
-                <div className="relative w-full h-64 bg-slate-100">
-                  <img className="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCbNdyJbm1v1yYmeVna0fozjmX4uYRsd3kZFOs2N9DCltCSblcIEZBLLQhHTaIYUH0_Kj451Z1qn3DEBWoN-4ZtwuYfm5VYe-3ZZTyqW7QuAL6mq-F9kL-Fv6kgw9s1uI1iIN5cOKY_sY0flCwW491Kle9IxvzzHlF7IbY8qjELqvUU8cFfSxvhN1h5-fExGLNLdQszZVqglbPymTTt3tdqDk4F5dDjqbyrgB6uslX00JymAm2SjLvP" alt="Lunch Box" />
-                  <div className="absolute top-4 right-4 bg-white/90 backdrop-blur px-4 py-1.5 rounded-full flex items-center gap-1.5 shadow-sm border border-slate-100">
-                    <Star size={16} className="text-orange-500" fill="currentColor" />
-                    <span className="font-bold text-slate-900">2,000 SP</span>
-                  </div>
+              <div role="button" tabIndex={0} onClick={() => handleBlockClick('Lunch Box')} className="cursor-pointer bg-white border border-slate-200 rounded-3xl overflow-hidden flex flex-col shadow-sm hover:shadow-xl hover:border-orange-500 focus:border-orange-500 hover:-translate-y-1 active:scale-95 active:bg-orange-50 active:ring-4 active:ring-orange-200 transition-all duration-300 outline-none text-left h-full">
+                <div className="relative w-full h-64 bg-slate-100 overflow-hidden group">
+                  <img className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCbNdyJbm1v1yYmeVna0fozjmX4uYRsd3kZFOs2N9DCltCSblcIEZBLLQhHTaIYUH0_Kj451Z1qn3DEBWoN-4ZtwuYfm5VYe-3ZZTyqW7QuAL6mq-F9kL-Fv6kgw9s1uI1iIN5cOKY_sY0flCwW491Kle9IxvzzHlF7IbY8qjELqvUU8cFfSxvhN1h5-fExGLNLdQszZVqglbPymTTt3tdqDk4F5dDjqbyrgB6uslX00JymAm2SjLvP" alt="Lunch Box" />
                 </div>
-                <div className="p-6 flex flex-col flex-1 w-full">
-                  <h3 className="font-bold text-xl text-slate-900 mb-2">Bento Lunch Box</h3>
-                  <p className="text-slate-600 mb-8 flex-1 leading-relaxed">Dual-compartment, leak-proof matte black container.</p>
-                  <div className="w-full bg-orange-50 border border-orange-200 text-orange-600 rounded-xl py-3 font-bold text-center">
+                <div className="p-6 flex flex-col flex-1 w-full gap-5">
+                  <div className="flex flex-col gap-2">
+                    <h3 className="font-bold text-[22px] text-slate-900 leading-tight">Bento Lunch Box</h3>
+                    <p className="text-slate-500 text-[15px] leading-relaxed">Dual-compartment, leak-proof matte black container.</p>
+                  </div>
+                  
+                  <div className="flex-1"></div>
+
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-full bg-orange-100 flex items-center justify-center text-orange-600 font-bold text-[11px]">
+                      SP
+                    </div>
+                    <div className="flex items-baseline gap-1.5">
+                      <span className="text-[26px] font-bold text-slate-900 tracking-tight">2,000</span>
+                      <span className="text-[14px] font-medium text-slate-500">Synergy Points</span>
+                    </div>
+                  </div>
+
+                  <div className="w-full bg-slate-100 hover:bg-slate-200 transition-colors text-slate-700 rounded-xl py-3.5 font-bold text-center text-[15px]">
                     Need 750 more SP
                   </div>
                 </div>
-              </button>
+              </div>
 
               {/* Product Card 3 */}
-              <button onClick={() => handleBlockClick('Tote')} className="bg-white border border-slate-200 rounded-3xl overflow-hidden flex flex-col shadow-sm hover:shadow-xl hover:border-orange-500 focus:border-orange-500 hover:-translate-y-1 active:scale-95 active:bg-orange-50 active:ring-4 active:ring-orange-200 transition-all duration-300 outline-none text-left">
-                <div className="relative w-full h-64 bg-slate-100">
-                  <img className="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDF4JrZVpsd4gf52wpWfkIdKlv_jqFQtK7KBUE903BAB0AXXhUGRbyb4YPlzv75v-UQsiIGU8kezUz0-tNlGqv1_TLwZrXjHEVZqDRM-QqgU8vdLTrwKytAHQYKA-WEurWQ74-ZmWgIqkZ60DcWIhkIYv0Bz8prMWsaOI-CTuv6Af31NhlLY99MSbqb8PTasmCEFXUuuz6xquc__yiFFsQHhDpRq5fd0Gy7rn62qp4B6nzPYJUKom0u" alt="Tote" />
-                  <div className="absolute top-4 right-4 bg-white/90 backdrop-blur px-4 py-1.5 rounded-full flex items-center gap-1.5 shadow-sm border border-slate-100">
-                    <Star size={16} className="text-orange-500" fill="currentColor" />
-                    <span className="font-bold text-slate-900">3,000 SP</span>
-                  </div>
+              <div role="button" tabIndex={0} onClick={() => handleBlockClick('Tote')} className="cursor-pointer bg-white border border-slate-200 rounded-3xl overflow-hidden flex flex-col shadow-sm hover:shadow-xl hover:border-orange-500 focus:border-orange-500 hover:-translate-y-1 active:scale-95 active:bg-orange-50 active:ring-4 active:ring-orange-200 transition-all duration-300 outline-none text-left h-full">
+                <div className="relative w-full h-64 bg-slate-100 overflow-hidden group">
+                  <img className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDF4JrZVpsd4gf52wpWfkIdKlv_jqFQtK7KBUE903BAB0AXXhUGRbyb4YPlzv75v-UQsiIGU8kezUz0-tNlGqv1_TLwZrXjHEVZqDRM-QqgU8vdLTrwKytAHQYKA-WEurWQ74-ZmWgIqkZ60DcWIhkIYv0Bz8prMWsaOI-CTuv6Af31NhlLY99MSbqb8PTasmCEFXUuuz6xquc__yiFFsQHhDpRq5fd0Gy7rn62qp4B6nzPYJUKom0u" alt="Tote" />
                 </div>
-                <div className="p-6 flex flex-col flex-1 w-full">
-                  <h3 className="font-bold text-xl text-slate-900 mb-2">Everyday Tote</h3>
-                  <p className="text-slate-600 mb-8 flex-1 leading-relaxed">Heavy-duty canvas with reinforced handles. Fits a 15" laptop.</p>
-                  <div className="w-full bg-orange-50 border border-orange-200 text-orange-600 rounded-xl py-3 font-bold text-center">
+                <div className="p-6 flex flex-col flex-1 w-full gap-5">
+                  <div className="flex flex-col gap-2">
+                    <h3 className="font-bold text-[22px] text-slate-900 leading-tight">Everyday Tote</h3>
+                    <p className="text-slate-500 text-[15px] leading-relaxed">Heavy-duty canvas with reinforced handles. Fits a 15" laptop.</p>
+                  </div>
+                  
+                  <div className="flex-1"></div>
+
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-full bg-orange-100 flex items-center justify-center text-orange-600 font-bold text-[11px]">
+                      SP
+                    </div>
+                    <div className="flex items-baseline gap-1.5">
+                      <span className="text-[26px] font-bold text-slate-900 tracking-tight">3,000</span>
+                      <span className="text-[14px] font-medium text-slate-500">Synergy Points</span>
+                    </div>
+                  </div>
+
+                  <div className="w-full bg-slate-100 hover:bg-slate-200 transition-colors text-slate-700 rounded-xl py-3.5 font-bold text-center text-[15px]">
                     Need 1,750 more SP
                   </div>
                 </div>
-              </button>
+              </div>
 
               {/* Product Card 4 */}
-              <button onClick={() => handleBlockClick('Crewneck')} className="bg-white border border-slate-200 rounded-3xl overflow-hidden flex flex-col shadow-sm hover:shadow-xl hover:border-orange-500 focus:border-orange-500 hover:-translate-y-1 active:scale-95 active:bg-orange-50 active:ring-4 active:ring-orange-200 transition-all duration-300 outline-none text-left">
-                <div className="relative w-full h-64 bg-slate-100">
-                  <img className="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB84wXqG9zyYgMmD6PoD2w_6yOmsrAkGhOaP09QnV6z-xtIiwomsXjFZiwzd4_O_XvKa8Hvnh0bRuJR1iR-FiabN2jU-22BKNkg0qBDaB5Tq9XM5oazXPJpY5lXVYBmySvXrDwGRQvXjnWXHkt6H1yl_amN6URVTf4lKeQFVG5MWuU9CSbX2MIpTggFXRtW8tN4-Hmkscqip3uREnqPtFqBXW-AfNqRlMoVCoDOe8BlG7myJ9_EOqEv" alt="Crewneck" />
-                  <div className="absolute top-4 right-4 bg-white/90 backdrop-blur px-4 py-1.5 rounded-full flex items-center gap-1.5 shadow-sm border border-slate-100">
-                    <Star size={16} className="text-orange-500" fill="currentColor" />
-                    <span className="font-bold text-slate-900">5,000 SP</span>
-                  </div>
+              <div role="button" tabIndex={0} onClick={() => handleBlockClick('Crewneck')} className="cursor-pointer bg-white border border-slate-200 rounded-3xl overflow-hidden flex flex-col shadow-sm hover:shadow-xl hover:border-orange-500 focus:border-orange-500 hover:-translate-y-1 active:scale-95 active:bg-orange-50 active:ring-4 active:ring-orange-200 transition-all duration-300 outline-none text-left h-full">
+                <div className="relative w-full h-64 bg-slate-100 overflow-hidden group">
+                  <img className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB84wXqG9zyYgMmD6PoD2w_6yOmsrAkGhOaP09QnV6z-xtIiwomsXjFZiwzd4_O_XvKa8Hvnh0bRuJR1iR-FiabN2jU-22BKNkg0qBDaB5Tq9XM5oazXPJpY5lXVYBmySvXrDwGRQvXjnWXHkt6H1yl_amN6URVTf4lKeQFVG5MWuU9CSbX2MIpTggFXRtW8tN4-Hmkscqip3uREnqPtFqBXW-AfNqRlMoVCoDOe8BlG7myJ9_EOqEv" alt="Crewneck" />
                 </div>
-                <div className="p-6 flex flex-col flex-1 w-full">
-                  <h3 className="font-bold text-xl text-slate-900 mb-2">Builder Crewneck</h3>
-                  <p className="text-slate-600 mb-8 flex-1 leading-relaxed">Ultra-soft premium cotton blend. Minimalist embroidered logo.</p>
-                  <div className="w-full bg-orange-50 border border-orange-200 text-orange-600 rounded-xl py-3 font-bold text-center">
+                <div className="p-6 flex flex-col flex-1 w-full gap-5">
+                  <div className="flex flex-col gap-2">
+                    <h3 className="font-bold text-[22px] text-slate-900 leading-tight">Builder Crewneck</h3>
+                    <p className="text-slate-500 text-[15px] leading-relaxed">Ultra-soft premium cotton blend. Minimalist embroidered logo.</p>
+                  </div>
+                  
+                  <div className="flex-1"></div>
+
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-full bg-orange-100 flex items-center justify-center text-orange-600 font-bold text-[11px]">
+                      SP
+                    </div>
+                    <div className="flex items-baseline gap-1.5">
+                      <span className="text-[26px] font-bold text-slate-900 tracking-tight">5,000</span>
+                      <span className="text-[14px] font-medium text-slate-500">Synergy Points</span>
+                    </div>
+                  </div>
+
+                  <div className="w-full bg-slate-100 hover:bg-slate-200 transition-colors text-slate-700 rounded-xl py-3.5 font-bold text-center text-[15px]">
                     Need 3,750 more SP
                   </div>
                 </div>
-              </button>
+              </div>
 
             </div>
           </div>
