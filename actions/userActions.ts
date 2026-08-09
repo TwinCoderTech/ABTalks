@@ -59,7 +59,7 @@ export async function registerUser(formData: FormData) {
       }
     });
   } catch (error) {
-    console.error("Database Error during Registration:", error);
+    console.error("DB_SIGNUP_ERROR:", error);
     return { error: 'Database error. Please try again.' };
   }
 
