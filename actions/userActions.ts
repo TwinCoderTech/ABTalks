@@ -5,6 +5,7 @@ import { redirect } from 'next/navigation';
 import bcrypt from 'bcryptjs';
 import { auth, signIn, signOut } from '@/auth';
 import { AuthError } from 'next-auth';
+import { isRedirectError } from 'next/dist/client/components/redirect-error';
 
 export async function loginUser(formData: FormData) {
   const email = formData.get('email') as string;
@@ -17,15 +18,21 @@ export async function loginUser(formData: FormData) {
       redirectTo: '/dashboard',
     });
   } catch (error) {
+    if (isRedirectError(error)) {
+      throw error;
+    }
+    
     if (error instanceof AuthError) {
       switch (error.type) {
         case 'CredentialsSignin':
           return { error: 'Invalid credentials.' };
         default:
-          return { error: 'Something went wrong.' };
+          return { error: 'Something went wrong during authentication.' };
       }
     }
-    throw error; // Rethrow to allow Next.js redirect to work
+    
+    console.error("Login Error:", error);
+    return { error: 'Internal Server Error. Please try again later.' };
   }
 }
 
@@ -37,19 +44,24 @@ export async function registerUser(formData: FormData) {
     return { error: 'Email and password are required.' };
   }
 
-  const existingUser = await db.user.findUnique({ where: { email } });
-  if (existingUser) {
-    return { error: 'Email already in use.' };
-  }
-
-  const hashedPassword = await bcrypt.hash(password, 10);
-
-  await db.user.create({
-    data: {
-      email,
-      password: hashedPassword,
+  try {
+    const existingUser = await db.user.findUnique({ where: { email } });
+    if (existingUser) {
+      return { error: 'Email already in use.' };
     }
-  });
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    await db.user.create({
+      data: {
+        email,
+        password: hashedPassword,
+      }
+    });
+  } catch (error) {
+    console.error("Database Error during Registration:", error);
+    return { error: 'Database error. Please try again.' };
+  }
 
   try {
     await signIn('credentials', {
@@ -58,15 +70,28 @@ export async function registerUser(formData: FormData) {
       redirectTo: '/dashboard',
     });
   } catch (error) {
+    if (isRedirectError(error)) {
+      throw error;
+    }
+
     if (error instanceof AuthError) {
       return { error: 'Registration successful, but auto-login failed.' };
     }
-    throw error;
+    
+    console.error("Login after Registration Error:", error);
+    return { error: 'Registration successful, but an unexpected error occurred during login.' };
   }
 }
 
 export async function logoutUser() {
-  await signOut({ redirectTo: '/' });
+  try {
+    await signOut({ redirectTo: '/' });
+  } catch (error) {
+    if (isRedirectError(error)) {
+      throw error;
+    }
+    console.error("Logout Error:", error);
+  }
 }
 
 export async function getCurrentUser() {
@@ -84,5 +109,12 @@ export async function getCurrentUser() {
 }
 
 export async function loginWithProvider(provider: 'google' | 'github') {
-  await signIn(provider, { redirectTo: '/dashboard' });
+  try {
+    await signIn(provider, { redirectTo: '/dashboard' });
+  } catch (error) {
+    if (isRedirectError(error)) {
+      throw error;
+    }
+    console.error("Provider Login Error:", error);
+  }
 }

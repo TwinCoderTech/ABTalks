@@ -17,17 +17,23 @@ export default function LoginPage() {
     setError(null);
     const formData = new FormData(e.currentTarget);
 
-    let result;
-    if (isLogin) {
-      result = await loginUser(formData);
-    } else {
-      result = await registerUser(formData);
-    }
+    try {
+      let result;
+      if (isLogin) {
+        result = await loginUser(formData);
+      } else {
+        result = await registerUser(formData);
+      }
 
-    if (result?.error) {
-      setError(result.error);
+      if (result?.error) {
+        setError(result.error);
+      }
+    } catch (err) {
+      console.error("Login component error:", err);
+      setError("An unexpected error occurred. Please check your connection and try again.");
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   return (
@@ -138,7 +144,7 @@ export default function LoginPage() {
             )}
 
             <button className={`headline-sm ${styles.submitBtn}`} type="submit" disabled={loading}>
-              {isLogin ? "Login" : "Create Account"}
+              {loading ? "Please wait..." : (isLogin ? "Login" : "Create Account")}
               {!loading && <span className="material-symbols-outlined" style={{ fontSize: 20 }}>arrow_forward</span>}
             </button>
           </form>
