@@ -1,0 +1,129 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Agent {
+  id                 String              @id @default(uuid())
+  name               String
+  description        String?
+  status             String              @default("ACTIVE")
+  model              String              @default("gemini-2.5-flash")
+  personaId          String?             @unique
+  persona            Persona?            @relation(fields: [personaId], references: [id])
+  topics             Topic[]
+  rejectedTopics     RejectedTopic[]
+  publishedPosts     PublishedPost[]
+  memories           Memory[]
+  editorialDecisions EditorialDecision[]
+  publishingJobs     PublishingJob[]
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+}
+
+model Persona {
+  id             String   @id @default(uuid())
+  name           String
+  tone           String
+  voiceStyle     String
+  systemPrompt   String
+  targetAudience String?
+  agent          Agent?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model Topic {
+  id                 String              @id @default(uuid())
+  agentId            String
+  agent              Agent               @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  title              String
+  description        String?
+  category           String?
+  sourceUrl          String?
+  score              Float               @default(0.0)
+  status             String              @default("PROPOSED")
+  editorialDecisions EditorialDecision[]
+  publishedPosts     PublishedPost[]
+  publishingJobs     PublishingJob[]
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+}
+
+model RejectedTopic {
+  id         String   @id @default(uuid())
+  agentId    String
+  agent      Agent    @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  title      String
+  reason     String
+  feedback   String?
+  rejectedAt DateTime @default(now())
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model PublishedPost {
+  id              String         @id @default(uuid())
+  agentId         String
+  agent           Agent          @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  topicId         String?
+  topic           Topic?         @relation(fields: [topicId], references: [id], onDelete: SetNull)
+  title           String
+  content         String
+  platform        String
+  postUrl         String?
+  status          String         @default("PUBLISHED")
+  publishedAt     DateTime?
+  metrics         String?
+  publishingJobId String?        @unique
+  publishingJob   PublishingJob? @relation(fields: [publishingJobId], references: [id])
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+}
+
+model Memory {
+  id              String   @id @default(uuid())
+  agentId         String
+  agent           Agent    @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  type            String
+  content         String
+  embedding       String?
+  importanceScore Float    @default(1.0)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model EditorialDecision {
+  id        String   @id @default(uuid())
+  agentId   String
+  agent     Agent    @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  topicId   String?
+  topic     Topic?   @relation(fields: [topicId], references: [id], onDelete: Cascade)
+  decision  String
+  reasoning String
+  reviewer  String   @default("AI_EDITOR")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model PublishingJob {
+  id             String         @id @default(uuid())
+  agentId        String
+  agent          Agent          @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  topicId        String?
+  topic          Topic?         @relation(fields: [topicId], references: [id], onDelete: SetNull)
+  targetPlatform String
+  scheduledFor   DateTime
+  status         String         @default("PENDING")
+  errorMessage   String?
+  publishedPost  PublishedPost?
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+}
