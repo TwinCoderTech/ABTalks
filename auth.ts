@@ -7,13 +7,6 @@ import bcrypt from "bcryptjs"
 import { db } from "@/lib/db"
 import { authConfig } from "./auth.config"
 
-// Ensure AUTH_URL is correctly formatted on Vercel to prevent "TypeError: Invalid URL"
-if (!process.env.AUTH_URL && process.env.VERCEL_URL) {
-  process.env.AUTH_URL = `https://${process.env.VERCEL_URL}`;
-} else if (process.env.AUTH_URL && !process.env.AUTH_URL.startsWith('http')) {
-  process.env.AUTH_URL = `https://${process.env.AUTH_URL}`;
-}
-
 export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
   adapter: PrismaAdapter(db),
